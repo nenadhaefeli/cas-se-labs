@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Architekturentwurf" id="lab00">
+    <mxGraphModel dx="1465" dy="2333" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1440" pageHeight="1260" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=32;fontColor=#193941;fillColor=none;strokeColor=none;" value="&lt;b&gt;Architekturentwurf | Dateiablage mit automatischer Auswertung&lt;/b&gt;" vertex="1">
+          <mxGeometry height="72" width="1380" x="30" y="-51" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=17;fontColor=#193941;fillColor=#dcefeb;strokeColor=none;" value="&lt;b&gt;Ausbaustufe 1   /   Dateien speichern und abrufen     ·     F1–F4&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="1380" x="35" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ui" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fontColor=#193941;fillColor=#f1f6f8;strokeColor=#afc7ce;" value="&lt;b&gt;Browser · HTML und JavaScript&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Lädt die Seite von App - JavaScript sendet Dateien per Drag &amp;amp; Drop, aktualisiert die Liste mit Name, Grösse, Uploadzeit und Status und bietet den Originaldownload an.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="352" width="370" x="59" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="api" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Azure Container Apps&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;b&gt;C# / ASP.NET Core&lt;/b&gt;&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- liefert Webseite und Web-API&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- API prüft Dokumenttyo (PDF, Word, JPG oder PNG) und maximal grösse von 10 MB.&amp;nbsp;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Retourniert Fehler&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Speichert gültige Uploads&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Bedient Liste und Download.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="203" width="380" x="525" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="blob" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fontColor=#193941;fillColor=#f1f6f8;strokeColor=#afc7ce;" value="&lt;b&gt;Azure Blob Storage&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Original unter eindeutiger Datei-ID speichern.&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Name, Grösse und Uploadzeit&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Json-Ergebnis&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Status&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="420" width="370" x="1040" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="apiblob" edge="1" parent="1" source="api" style="edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.5;entryX=-0.003;entryY=0.28;html=1;endArrow=block;strokeWidth=2;strokeColor=#477278;labelBackgroundColor=#ffffff;fontSize=14;fontFamily=Helvetica;entryDx=0;entryDy=0;entryPerimeter=0;" target="blob" value="speichert / liest">
+          <mxGeometry relative="1" x="-0.0629" y="20" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=17;fontColor=#193941;fillColor=#dcefeb;strokeColor=none;" value="&lt;b&gt;Ausbaustufe 2   /   Nach dem Upload asynchron verarbeiten     ·     F5–F8&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="1390" x="35" y="301" as="geometry" />
+        </mxCell>
+        <mxCell id="queue" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fontColor=#193941;fillColor=#f1f6f8;strokeColor=#afc7ce;" value="&lt;b&gt;Azure Event Grid und Queue Storage&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Event Grid leitet BlobCreated für den Original-Container an die Queue weiter. Sie puffert den Verweis auf die Datei, bis diese weiterverarbeitet wird.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="146" width="370" x="1050" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="worker" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Azure Function App&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;&lt;b&gt;C# / .NET, Queue-Trigger.&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Separat bereitgestellter Worker.&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Liest das Original aus Blob Storage&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Bereitet Text oder Bild auf&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Ruft das Modell mit dem vordefinierten prompt auf&lt;/div&gt;" vertex="1">
+          <mxGeometry height="180" width="370" x="616" y="439" as="geometry" />
+        </mxCell>
+        <mxCell id="model" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Modell-Endpunkt&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Modell analysiert Text und Bilder.&lt;/div&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;- Es antwortet dem Worker mit Kategorie, Titel, Kurzfassung, Schlagwörtern und fachlichen Feldern als JSON.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="146" width="370" x="135" y="479" as="geometry" />
+        </mxCell>
+        <mxCell id="blobqueue" edge="1" parent="1" source="blob" style="edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;entryX=0.5;entryY=0;html=1;endArrow=block;strokeWidth=2;strokeColor=#477278;labelBackgroundColor=#ffffff;fontSize=14;fontFamily=Helvetica;" target="queue" value="Blob erstellt">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="queueworker" edge="1" parent="1" source="queue" style="edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;entryX=1;entryY=0.5;html=1;endArrow=block;strokeWidth=2;strokeColor=#477278;labelBackgroundColor=#ffffff;fontSize=14;fontFamily=Helvetica;" target="worker" value="Datei-ID">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="workermodel" edge="1" parent="1" source="worker" style="edgeStyle=orthogonalEdgeStyle;exitX=0;exitY=0.5;entryX=1;entryY=0.5;html=1;endArrow=block;strokeWidth=2;strokeColor=#477278;labelBackgroundColor=#ffffff;fontSize=14;fontFamily=Helvetica;" target="model" value="Modellaufruf">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="workerresult" edge="1" parent="1" source="worker" style="edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0.75;html=1;endArrow=block;strokeWidth=2;strokeColor=#477278;labelBackgroundColor=#ffffff;fontSize=14;fontFamily=Helvetica;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="blob" value="Ergebnis / Status">
+          <mxGeometry relative="1" x="-0.7481" as="geometry">
+            <Array as="points">
+              <mxPoint x="558.1" y="495" />
+              <mxPoint x="558.1" y="427.1" />
+              <mxPoint x="1040" y="427.1" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=17;fontColor=#193941;fillColor=#dcefeb;strokeColor=none;" value="&lt;b&gt;Betrieb und Entwurfsentscheidungen     ·     F8–F9, N1–N5&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="1380" x="30" y="819" as="geometry" />
+        </mxCell>
+        <mxCell id="retry" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=19;fontColor=#193941;fillColor=#f5f7f7;strokeColor=none;" value="&lt;b&gt;Wiederanlauf · Azure Functions&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Der Queue-Trigger wiederholt fehlgeschlagene Aufträge und verschiebt sie danach in die Fehlerqueue. Ein Fehlerhandler in App setzt status «fehlgeschlagen». Nach Korrektur erneut einreihen. Der Worker schreibt «fertig» je Datei-ID und Version nur einmal.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="162" width="450" x="30" y="875" as="geometry" />
+        </mxCell>
+        <mxCell id="deploy" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=19;fontColor=#193941;fillColor=#f5f7f7;strokeColor=none;" value="&lt;b&gt;GitHub Actions und Azure Monitor&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Nach dem Merge testet GitHub Actions beide Apps, wendet Terraform an und veröffentlicht Web-Image und Function-Paket aus demselben Commit. Azure Monitor bündelt Fehler mit Zeitpunkt, Datei-ID, Komponente und Meldung in Log Analytics.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="162" width="450" x="495" y="875" as="geometry" />
+        </mxCell>
+        <mxCell id="region" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=19;fontColor=#193941;fillColor=#f5f7f7;strokeColor=none;" value="&lt;b&gt;Standort und Betriebskosten&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Ziel: Azure Switzerland North für Originale, Ergebnisse, Logs und KI-Verarbeitung. Gründe: Schweizer Datenhaltung und Nähe zum Team. Container und Funktion skalieren auf null. Im Leerlauf bleiben vor allem Speicher- und Logkosten.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="162" width="450" x="960" y="875" as="geometry" />
+        </mxCell>
+        <mxCell id="assumptions" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fontColor=#193941;fillColor=#eaf4f1;strokeColor=none;" value="&lt;b&gt;Annahmen&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Rund 100 Dateien pro Tag, kleines Team in der Schweiz. Die Liste wird schon in Stufe 1 mit Platz für Ergebnisse gebaut. Verwaltete Dienste und eine einzelne Webseite halten Einrichtung und Betrieb klein.&lt;/div&gt;" vertex="1">
+          <mxGeometry height="162" width="680" x="30" y="1058" as="geometry" />
+        </mxCell>
+        <mxCell id="open" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fontFamily=Helvetica;fontSize=20;fontColor=#193941;fillColor=#eaf4f1;strokeColor=none;" value="&lt;b&gt;Offene Fragen&lt;/b&gt;&lt;div style=&quot;font-size:16px;margin-top:6px&quot;&gt;Welche Feldsicherheit genügt der Buchhaltung nach Tests mit Beispielrechnungen? Wie lange sollen Originale, Ergebnisse und Fehlerprotokolle aufbewahrt werden?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="162" width="685" x="725" y="1058" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-1" edge="1" parent="1" source="worker" style="endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;labelAutoRotate=1;textShadow=0;labelBackgroundColor=none;" target="blob" value="&lt;div&gt;Fordert die Datei an&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Blob storage retourniert sie&lt;/div&gt;">
+          <mxGeometry height="50" relative="1" width="50" x="-0.1169" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+            <mxPoint x="659" y="609" as="sourcePoint" />
+            <mxPoint x="709" y="559" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-4" edge="1" parent="1" source="ui" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.006;entryY=0.318;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;" target="api" value="https">
+          <mxGeometry relative="1" x="-0.1142" y="17" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacing=12;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 17px;&quot;&gt;Rechnung&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="92" width="1000" x="14" y="630" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacing=12;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Foto&lt;/font&gt;&lt;/b&gt;" vertex="1">
+          <mxGeometry height="92" width="1000" x="14" y="722" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;spacing=12;fillColor=#d5e8d4;strokeColor=#82b366;" value=" liest Datum, Kamera und GPS aus EXIF" vertex="1">
+          <mxGeometry height="60" width="370" x="616" y="738" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;spacingLeft=0;spacing=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" value=" liefert Beschreibung, Objekte und Schlagwörter." vertex="1">
+          <mxGeometry height="60" width="370" x="135" y="738" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;spacing=12;fillColor=#dae8fc;strokeColor=#6c8ebf;" value=" liest Lieferant, Nummer, Datum, Beträge, MWST und Positionen samt Sicherheit je Feld" vertex="1">
+          <mxGeometry height="60" width="370" x="135" y="646" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontSize=14;align=left;spacing=12;fillColor=#d5e8d4;strokeColor=#82b366;" value="prüft Summen und markiert Auffälligkeiten" vertex="1">
+          <mxGeometry height="60" width="370" x="616" y="646" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacing=12;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;div align=&quot;left&quot;&gt;&lt;b&gt;&lt;font style=&quot;font-size: 17px;&quot;&gt;Rechnung&lt;/font&gt;&lt;/b&gt;&lt;/div&gt;&amp;nbsp;Buchhaltung prüft markierte Felder am Original in der Weboberfläche" vertex="1">
+          <mxGeometry height="49" width="370" x="59" y="354" as="geometry" />
+        </mxCell>
+        <mxCell id="07Y9Um3H6O9VMW2N2lP7-12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacing=12;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;div&gt;&lt;b&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Foto&lt;/font&gt;&lt;/b&gt;&lt;/div&gt; Im Browser öffnet ein GPS-Link die Karte" vertex="1">
+          <mxGeometry height="49" width="370" x="59" y="409" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
