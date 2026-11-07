@@ -22,7 +22,7 @@ Modul 2
 - zwischen VM, Container und Serverless-Funktion begründet entscheiden und die Unterschiede in Skalierung, Kosten und Lock-in benennen
 - eine ereignisgesteuerte Verarbeitung (Upload, Event, Funktion) aufbauen und robust machen: Retries, Idempotenz, Dead-Letter
 - ein LLM per API einbinden, um aus Dokumenten strukturierte Metadaten zu gewinnen
-- Änderungen an Infrastruktur und Code über eine Pipeline ausrollen
+- Änderungen an der Infrastruktur mit Terraform nachvollziehbar und wiederholbar ausrollen
 
 ## Anwendungsfall
 
@@ -40,7 +40,7 @@ Eine Musterlösung gibt es nicht. Die Lösung wird in den beiden Modulen umgeset
 - Architektur-Entwurf mit Annahmen und offenen Fragen
 - eigenes Repo und Entwicklungsumgebung (Codespace oder Dev Container)
 - Test der Werkzeugkette
-- Azure-Anmeldung und Budget-Alert
+- Azure-Anmeldung
 
 Das Ende des Labs enthält die Definition of Done. Die detaillierte Einrichtung der Entwicklungsumgebung steht im Anhang.
 
@@ -62,9 +62,10 @@ Das private Konto ergibt einen eigenen Mandanten (Tenant) mit der Rolle Owner. E
 - **Dev Container:** Entwicklungsumgebung als Container, beschrieben in `devcontainer.json` und damit für alle identisch.
 - **Codespace:** Dev Container, der bei GitHub in der Cloud läuft, im Browser oder in VS Code.
 - **Mandant (Tenant):** Verzeichnis in Azure für Konten und Rollen. Das Abo gehört zu einem Mandanten.
-- **Terraform:** legt Cloud-Ressourcen anhand von Code-Dateien an und entfernt sie wieder (Infrastructure as Code).
+- **Terraform:** legt Cloud-Ressourcen anhand von Code-Dateien an und entfernt sie wieder (Infrastructure as Code). Einführung: [Terraform](https://developer.hashicorp.com/terraform/intro), [Terraform auf Azure](https://learn.microsoft.com/azure/developer/terraform/overview).
 - **Deployment:** Anwendung oder Infrastruktur in der Cloud bereitstellen oder aktualisieren.
 - **Code-along:** Schritte der Demo auf dem eigenen Rechner gleichzeitig nachvollziehen.
+- **Demo-Modus:** Ein Lab ohne eigene Änderungen am Code durchgehen und der Demo folgen. Der Code ist dabei fertig. Welcher Ordner der Arbeitsordner ist, nennt jedes Lab zu Beginn, meist `solution/`. Beim selbstständigen Durcharbeiten (Übung) dient der Startstand `start/` als Ausgangspunkt.
 
 ---
 
@@ -106,7 +107,7 @@ Das ist das Endziel. F5 bis F9 gelten für beide Szenarien.
 - **F6** Ein AI-Modell, das über eine Schnittstelle zur Verfügung steht, ordnet die Datei ein: Kategorie, Titel, kurze Zusammenfassung, Schlagwörter.
 - **F7** Ergebnis und Status («hochgeladen», «fertig», «fehlgeschlagen») erscheinen in der Liste, ohne Änderung an der Oberfläche.
 - **F8** Fehlgeschlagene Verarbeitungen gehen nicht verloren. Sie sind nachvollziehbar und wiederholbar.
-- **F9** Änderungen an der Plattform werden automatisch und nachvollziehbar ausgerollt (Deployment), nicht von Hand.
+- **F9** Änderungen an der Plattform sind als Code beschrieben und werden nachvollziehbar und wiederholbar ausgerollt (Deployment), nicht von Hand im Portal.
 - **F10** Nur Szenario A: Aus der Rechnung werden Lieferant, Rechnungsnummer, Datum, Beträge, MWST und Positionen ausgelesen. Pro Feld ist die Sicherheit des Ergebnisses ausgewiesen, unsichere Felder sind markiert.
 - **F11** Nur Szenario B: Aus dem Foto werden Aufnahmedatum, Kamera und Standort ausgelesen, dazu eine Beschreibung und erkannte Objekte. Der Standort ist auf einer Karte aufrufbar.
 
@@ -123,6 +124,14 @@ Das ist das Endziel. F5 bis F9 gelten für beide Szenarien.
 - Technologie: Die Lösung im Kurs läuft auf Microsoft Azure. Der Entwurf darf jede Cloud oder on-premise verwenden, etwa AWS, Google Cloud oder eigene Server mit Open-Source-Komponenten. Der Vergleich im Unterricht ordnet die Bausteine der Anbieter einander zu. Eine Festlegung auf eine Technologie ist nicht nötig, allgemeine Begriffe wie Datenbank, Warteschlange oder Container sind zulässig.
 - Anwendung: C# (.NET). Die Oberfläche ist eine einzelne Webseite mit etwas JavaScript.
 - Nicht im Scope: Benutzeranmeldung, Berechtigungen für Endnutzer, ausgefeilte Sicherheitskonzepte und Hochverfügbarkeit über mehrere Regionen (Themen anderer Module).
+
+Weiterführend zur Aufgabe:
+
+- [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/): Kosten, Betrieb, Zuverlässigkeit, Sicherheit, Leistung
+- [Entscheidungshilfe Datenspeicher](https://learn.microsoft.com/azure/architecture/guide/technology-choices/data-store-overview): Speichertypen im Vergleich
+- [Azure-Regionen](https://learn.microsoft.com/azure/reliability/regions-overview) und [Availability Zones](https://learn.microsoft.com/azure/reliability/availability-zones-overview): Standort der Daten
+- [Shared Responsibility in der Cloud](https://learn.microsoft.com/azure/security/fundamentals/shared-responsibility): Aufteilung der Verantwortung
+- [Cloud Design Patterns](https://learn.microsoft.com/azure/architecture/patterns/): Muster für Entwürfe
 
 ## Der Architektur-Entwurf
 
@@ -148,25 +157,24 @@ Format:
 
 Umfang: Nicht alle Fragen müssen beantwortet sein, wenige Komponenten und offene Fragen genügen. Mit mehr Erfahrung kommen Varianten mit Abwägungen dazu: Kosten, Betrieb, Abhängigkeit vom Anbieter, Skalierung, Fehlerbehandlung.
 
-Verwendung: Der Entwurf wird nicht bewertet. Im Einstieg von Modul 1 werden zwei bis drei Entwürfe kurz gezeigt, am Ende von Modul 2 folgt der Vergleich mit der umgesetzten Lösung. Eine Abgabe ist nicht nötig. Für die Besprechung im Einstieg genügt es, den Entwurf zur Hand zu haben.
+Verwendung: Im Einstieg von Modul 1 werden zwei bis drei Entwürfe kurz gezeigt, am Ende von Modul 2 folgt der Vergleich mit der umgesetzten Lösung. Eine Abgabe ist nicht nötig. Für die Besprechung im Einstieg genügt es, den Entwurf zur Hand zu haben.
 
 ## Die beiden Unterrichtstage
 
 Im Unterricht wird jeder Schritt in einer Demo gezeigt. Mitbauen ist direkt (Code-along) oder später mit den Anleitungen der Labs möglich.
 
-Jedes Lab hat einen Start- und einen Lösungsstand, damit der Einstieg bei jedem Lab möglich ist. Die Labs werden im Unterricht freigegeben.
+Jedes Lab ab Lab 01 hat einen Startstand (`start/`) für die Übung und einen Lösungsstand (`solution/`) mit dem fertigen Code, damit der Einstieg bei jedem Lab möglich ist.
 
 ---
 
 ## Kurzfassung (mit Erfahrung in Codespaces, Terraform und Azure CLI)
 
-Fünf Schritte, Details in den folgenden Abschnitten und im Anhang.
+Vier Schritte, Details in den folgenden Abschnitten und im Anhang.
 
 1. Das Kurs-Repo `cas-se-labs` im eigenen Konto forken (der Fork ist öffentlich).
-2. Umgebung öffnen: Codespace auf `main`, oder lokal **Reopen in Container**.
+2. Umgebung öffnen: Codespace auf `main` (im Browser oder in VS Code), oder lokal **Reopen in Container**.
 3. `bash labs/00-setup/check.sh` ausführen, Ergebnis «Local environment is ready.».
 4. `az login --use-device-code`, danach `export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)`.
-5. Budget auf Abo-Ebene anlegen, zum Beispiel CHF 10 mit Alert bei 80 %.
 
 ## Die Umgebung im Überblick
 
@@ -193,9 +201,16 @@ Die Umgebung ist in einer einzigen Datei beschrieben (`.devcontainer/devcontaine
 | Unterstützung im Kurs | voll | voll | ohne Gewähr |
 | Einrichtung | Anhang A | Anhang B | Anhang C |
 
-Alle drei laufen unter Windows, macOS und Linux. Bei A und B ist das Betriebssystem unerheblich, weil der Codespace ein Linux-Rechner in der Cloud ist, auch auf einem Apple-Silicon-Mac. Standard ist Variante A.
+Alle drei laufen unter Windows, macOS und Linux. Bei A und B ist das Betriebssystem unerheblich, weil der Codespace ein Linux-Rechner in der Cloud ist, auch auf einem Apple-Silicon-Mac. Standard ist Variante A. Die Demo läuft in Variante A: Sie braucht keine Installation und ist auf allen Betriebssystemen gleich, die Werkzeuge sind im Codespace bereits eingerichtet, und Fehler durch lokale Docker-Installationen entfallen. Das Gratis-Kontingent von GitHub und eine dauernde Internetverbindung sind die Voraussetzungen.
 
-Variante C setzt eine Container-Engine voraus. Ein Dev Container ist ein Container, ohne Docker lässt er sich nicht starten. Das ist die häufigste Fehlerquelle dieser Variante (Docker nicht gestartet, WSL 2 fehlt, Virtualisierung gesperrt, Firmenrichtlinie). Läuft Docker nicht, bleibt der Wechsel zu Variante A oder B.
+Variante C setzt Docker auf dem eigenen Rechner voraus. VS Code startet den Dev Container über Docker Desktop. Ist Docker Desktop nicht gestartet, lässt sich der Dev Container nicht öffnen. Das ist die häufigste Fehlerquelle dieser Variante (Docker nicht gestartet, WSL 2 fehlt, Virtualisierung gesperrt, Firmenrichtlinie). Läuft Docker nicht, bleibt der Wechsel zu Variante A oder B.
+
+Weiterführend zu den Varianten:
+
+- [Development Containers](https://containers.dev/): Spezifikation von `devcontainer.json`
+- [Dev Containers in VS Code](https://code.visualstudio.com/docs/devcontainers/containers): Variante C
+- [GitHub Codespaces, Überblick](https://docs.github.com/codespaces/overview): Variante A und B
+- [Abrechnung von Codespaces](https://docs.github.com/billing/managing-billing-for-your-products/managing-billing-for-github-codespaces/about-billing-for-github-codespaces): Gratis-Kontingent
 
 ---
 
@@ -219,8 +234,6 @@ Das Repo `github.com/<name>/cas-se-labs` besteht (`<name>` ist der GitHub-Benutz
 - Der Knopf **Fork** lässt sich nicht bedienen: Die Anmeldung bei GitHub fehlt. Das Kurs-Repo ist ohne Anmeldung lesbar, das Forken verlangt sie.
 - Es besteht bereits ein Fork des Kurs-Repos im eigenen Konto, etwa aus einer früheren Durchführung: GitHub verweist auf den vorhandenen Fork. Dieser genügt, **Sync fork** bringt ihn auf den aktuellen Stand.
 - Der Fork ist öffentlich: Ein Fork eines öffentlichen Repos ist öffentlich, die Sichtbarkeit lässt sich nicht ändern. Alles, was committet wird, ist für alle lesbar. Schlüssel, Connection Strings und Tokens gehören nie ins Repo, siehe Hinweise am Ende.
-- GitHub Actions laufen im Fork zunächst nicht. Der Tab **Actions** des Forks bietet an, die Workflows zu aktivieren. Bis Modul 2 sind sie nicht nötig.
-- Pull Requests aus dem Fork schlagen als Ziel das Original vor. In Modul 2 ist beim Erstellen als Basis-Repository der eigene Fork zu wählen, sonst landet der Pull Request im Kurs-Repo.
 
 **Spätere Labs übernehmen**
 
@@ -229,19 +242,20 @@ Der Fork zeigt den Stand zum Zeitpunkt der Erzeugung. Labs, die später im Kurs-
 1. Eigene Änderungen committen und pushen.
 2. Auf GitHub die Hauptseite des eigenen Forks öffnen.
 3. Oberhalb der Dateiliste **Sync fork** wählen und **Update branch** bestätigen.
-4. Im Codespace oder Dev Container den neuen Stand holen:
+4. Im Terminal des Dev Containers den neuen Stand holen:
 
    ```bash
    git pull --no-rebase --no-edit
    ```
 
-Kollidieren eigene Änderungen mit dem Original, bietet GitHub an, einen Pull Request zur Lösung der Konflikte zu erstellen. Im Terminal meldet `git pull` in diesem Fall `CONFLICT` und nennt die betroffene Datei. `git merge --abort` stellt den vorherigen Stand wieder her. Die eigene Arbeit bleibt unangetastet, wenn nur der Ordner des neuen Labs geholt wird. Das leisten diese Befehle im Terminal des Dev Containers:
+Kollidieren eigene Änderungen mit dem Original, lässt sich der Fork nicht mit **Update branch** aktualisieren. Im Terminal meldet `git pull` in diesem Fall `CONFLICT` und nennt die betroffene Datei. `git merge --abort` stellt den vorherigen Stand wieder her. Die eigene Arbeit bleibt unangetastet, wenn nur der Ordner des neuen Labs geholt wird. Das leisten diese Befehle im Terminal des Dev Containers:
 
 ```bash
 git remote add upstream https://github.com/marcoamhof/cas-se-labs.git   # nur beim ersten Mal
 git fetch upstream
 git checkout upstream/main -- labs/01-storage
-git commit -m "Lab 01 übernommen"
+git commit -m "Take over lab 01"
+git push
 ```
 
 - `labs/01-storage` steht für den Ordner des jeweiligen Labs.
@@ -250,6 +264,8 @@ git commit -m "Lab 01 übernommen"
 - Der Befehl holt nur diesen Ordner. Eigene Arbeit in anderen Ordnern bleibt unverändert.
 - Dateien im geholten Lab-Ordner werden überschrieben. Eigene Änderungen dort sind vorher zu committen.
 - `git remote add` meldet «remote upstream already exists», wenn der Eintrag schon besteht. Der Schritt entfällt dann.
+
+Weiterführend: [Über Forks](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/about-forks) und [Fork synchronisieren](https://docs.github.com/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork).
 
 ## Entwicklungsumgebung starten
 
@@ -270,6 +286,8 @@ Die Umgebung ist aufgebaut, und ein Terminal zeigt unter «== tool versions ==»
 Die Fehlerbilder je Variante stehen im jeweiligen Anhang.
 
 ## Werkzeuge prüfen
+
+Die Befehle dieses Labs laufen im Terminal des Dev Containers: **Terminal → New Terminal** (im Browser-Codespace über das Menüsymbol ☰ oben links). Erkennbar ist es am Tab `bash` rechts im Terminal-Bereich und an der Eingabeaufforderung mit dem Ordner unter `/workspaces/`, im Codespace etwa `@konto → /workspaces/cas-se-labs (main) $`. Zeigt die Eingabeaufforderung `PS`, ist eine PowerShell geöffnet: im Terminal-Bereich neben dem `+` den Pfeil öffnen und **bash** wählen. Ein Terminal auf dem eigenen Rechner, etwa Windows PowerShell mit `PS C:\...`, gehört nicht zum Dev Container. Dort fehlen die Werkzeuge.
 
 Das Skript prüft die Werkzeuge und startet zwei kleine Tests, einen Docker-Container und ein .NET-Programm. Beide haben mit der Aufgabe nichts zu tun, sie zeigen nur, dass die Werkzeugkette läuft.
 
@@ -302,15 +320,17 @@ Der Azure-Block darunter zeigt noch `[todo]`, die Anmeldung folgt im nächsten A
 
 **Was schiefgehen kann**
 
-- `[FAIL] docker`: Die Umgebung wurde ohne Docker-Daemon gestartet. **F1 → Rebuild Container** behebt das.
+- `[FAIL] docker`: Die Umgebung wurde ohne Docker-Daemon gestartet. **F1 → Codespaces: Rebuild Container** (Codespace) oder **F1 → Dev Containers: Rebuild Container** (lokaler Dev Container) behebt das.
 - `[FAIL] docker-run`: Das Netzwerk lässt den Download des Testimages nicht zu, etwa in einem Firmen- oder Hotel-WLAN oder hinter einem Proxy. Ein anderes Netz hilft. Im Codespace kommt das selten vor.
-- `[FAIL] dotnet-run` oder ein anderes Werkzeug: Der Aufbau war unvollständig. Meist hilft **Rebuild Container**, sonst eine Mail mit der Fehlerzeile.
+- `[FAIL] dotnet-run` oder ein anderes Werkzeug: Der Aufbau war unvollständig. Meist hilft derselbe Rebuild wie bei `[FAIL] docker`, sonst eine Mail mit der Fehlerzeile.
 
 ## Bei Azure anmelden
 
 Die Anmeldung legt nichts in Azure an. Sie legt für die Azure CLI und Terraform fest, mit welchem Konto und in welchem Abo sie später arbeiten, und ist vor dem ersten `terraform apply` im Unterricht nötig. Im Dev Container läuft sie am einfachsten über einen Gerätecode.
 
 **Ablauf**
+
+Ort: Terminal des Dev Containers, im Hauptordner `/workspaces/cas-se-labs`.
 
 ```bash
 az login --use-device-code
@@ -332,27 +352,20 @@ Im Azure-Block von `check.sh` stehen `[ok] signed in` mit dem Namen des Abos und
 - Der Code ist abgelaufen: Er gilt nur wenige Minuten. Ein neuer Aufruf von `az login --use-device-code` liefert einen neuen.
 - «No subscriptions found»: Das Abo ist noch nicht aktiv, oder die Anmeldung erfolgte mit dem falschen Konto. Unter **Subscriptions** im Portal ist sichtbar, welches Abo zum Konto gehört.
 
-## Budget-Alert einrichten
+Weiterführend:
 
-Ein Budget-Alert schickt eine Mail, wenn die Kosten eine Schwelle erreichen. Er warnt nur und stoppt nichts.
-
-**Ablauf**
-
-Im Azure-Portal **Cost Management + Billing → Cost Management → Budgets → Add** öffnen. Scope: das Abo. Betrag: zum Beispiel CHF 10 pro Monat. Alert bei 80 % an die eigene Adresse.
-
-**Erwartetes Ergebnis**
-
-Das Budget erscheint in der Liste.
-
-**Was schiefgehen kann**
-
-- Der Menüpunkt fehlt oder ist gesperrt: Das Abo ist wahrscheinlich noch nicht ganz aktiv. Einige Minuten warten.
+- [Anmeldung bei der Azure CLI](https://learn.microsoft.com/cli/azure/authenticate-azure-cli): Anmeldearten, Gerätecode
+- [Terraform bei Azure authentifizieren](https://learn.microsoft.com/azure/developer/terraform/authenticate-to-azure): `ARM_SUBSCRIPTION_ID` und Azure CLI
+- [Mandanten und Abonnements](https://learn.microsoft.com/azure/azure-resource-manager/management/overview): Resource Manager, Ressourcengruppen
+- [Was ist Microsoft Entra ID?](https://learn.microsoft.com/entra/fundamentals/whatis): Konten und Verzeichnis
+- [Kosten im Testabo vermeiden](https://learn.microsoft.com/azure/cost-management-billing/manage/avoid-charges-free-account)
 
 ## Aufräumen
 
-- Nach jedem Modul wird alles entfernt, was angelegt wurde. Der Befehl dafür, `terraform destroy`, wird im Unterricht gezeigt. Fixkosten laufen bei Leerlauf weiter, bis die Ressourcen weg sind.
+- Labs, die Ressourcen in Azure anlegen (ab Lab 02), entfernen sie am Ende mit `terraform destroy`, beschrieben im Abschnitt «Aufräumen» des jeweiligen Labs. Fixkosten laufen bei Leerlauf weiter, bis die Ressourcen weg sind.
 - Codespace stoppen, wenn nicht gearbeitet wird: **F1 → Codespaces: Stop Current Codespace**. Ungenutzt stoppt er nach 30 Minuten von selbst und bleibt bestehen.
-- Nach Abschluss des Labs den Codespace löschen: github.com/codespaces → Menü des Codespace → **Delete**. Vor dem Löschen sind Änderungen zu committen und zu pushen, sonst gehen sie verloren. Gepushter Code bleibt im Fork.
+- GitHub löscht gestoppte Codespaces nach 30 Tagen ohne Nutzung (Standardeinstellung, Stand 06.11.2026). Zwischen Modul 1 und Modul 2 liegen 34 Tage. Änderungen sind deshalb nach jeder Sitzung zu committen und zu pushen. Fehlt der Codespace vor Modul 2, lässt sich aus dem Fork jederzeit ein neuer erzeugen (Anhang A).
+- Nach Abschluss von Modul 2 den Codespace löschen: github.com/codespaces → Menü des Codespace → **Delete**. Vor dem Löschen sind Änderungen zu committen und zu pushen, sonst gehen sie verloren. Gepushter Code bleibt im Fork.
 
 ## Definition of Done
 
@@ -362,7 +375,6 @@ Das Budget erscheint in der Liste.
 - [ ] Die Entwicklungsumgebung startet (Variante A, B oder C).
 - [ ] `bash labs/00-setup/check.sh` meldet «Local environment is ready.».
 - [ ] `az login` ist erfolgt, `ARM_SUBSCRIPTION_ID` ist gesetzt, der Azure-Block von `check.sh` zeigt `[ok]`.
-- [ ] Ein Budget-Alert auf Abo-Ebene besteht.
 
 Bei Problemen genügt eine Mail mit der gewählten Variante (A, B oder C), dem Abschnitt und der letzten Fehlermeldung, vor dem Kurstag.
 
@@ -403,7 +415,7 @@ VS Code läuft im Browser, der Explorer zeigt die Ordner `labs/` und `.devcontai
 
 **Was schiefgehen kann**
 
-- Der Aufbau bricht ab: **F1 → Codespaces: View Creation Log** zeigt die Ursache in der letzten Zeile. Oft genügt **F1 → Rebuild Container**.
+- Der Aufbau bricht ab: **F1 → Codespaces: View Creation Log** zeigt die Ursache in der letzten Zeile. Oft genügt **F1 → Codespaces: Rebuild Container**.
 - Meldung zum Kontingent: Persönliche Konten haben ein monatliches Gratis-Kontingent, einsehbar unter github.com/settings/billing. Stoppen des Codespace nach jeder Sitzung verringert den Verbrauch.
 - Der Browser blockiert Fenster oder Cookies von GitHub: Ausnahme für `github.com` und `github.dev` zulassen oder ein anderes Browserprofil verwenden.
 
@@ -413,8 +425,8 @@ Voraussetzungen: GitHub-Konto, Repo `<name>/cas-se-labs`, VS Code auf dem eigene
 
 **Ablauf**
 
-1. VS Code installieren (code.visualstudio.com). Windows: `winget install -e --id Microsoft.VisualStudioCode`. macOS: `brew install --cask visual-studio-code`.
-2. Die Erweiterung **GitHub Codespaces** installieren: Ansicht **Extensions** (Ctrl+Shift+X, auf dem Mac Cmd+Shift+X), nach «GitHub Codespaces» suchen, **Install** wählen. Alternativ im Terminal `code --install-extension GitHub.codespaces`.
+1. VS Code installieren (code.visualstudio.com). Die Befehle laufen im Terminal auf dem eigenen Rechner. Windows: `winget install -e --id Microsoft.VisualStudioCode`. macOS: `brew install --cask visual-studio-code`.
+2. Die Erweiterung **GitHub Codespaces** installieren: Ansicht **Extensions** (Ctrl+Shift+X, auf dem Mac Cmd+Shift+X), nach «GitHub Codespaces» suchen, **Install** wählen. Alternativ im Terminal auf dem eigenen Rechner `code --install-extension GitHub.codespaces`.
 3. Bei der ersten Verbindung meldet sich VS Code bei GitHub an. Die Anmeldung läuft über den Browser, VS Code führt durch den Ablauf.
 4. Codespace erzeugen: **F1 → Codespaces: Create New Codespace**, Repo `<name>/cas-se-labs` und Branch `main` wählen. Alternativ den Codespace wie in Anhang A im Browser erzeugen.
 5. Verbinden: **F1 → Codespaces: Connect to Codespace** und den Codespace wählen. Alternativ im Browser über das Menü des Codespace **Open in VS Code**.
@@ -432,6 +444,8 @@ VS Code läuft auf dem eigenen Gerät, links unten steht «Codespaces: …». Di
 ### Anhang C: Variante C, lokaler Dev Container
 
 Voraussetzungen: eine funktionierende Container-Engine (Docker Desktop oder Docker Engine, ohne sie startet der Dev Container nicht), einige GB freier Speicherplatz, Recht zum Installieren von Software, Docker-Lizenzbedingungen geprüft (Docker Desktop ist für grössere Firmen kostenpflichtig, die Firmenregeln gelten). Getestet ist der Aufbau des Dev Containers auf x86-64. Für Apple Silicon (arm64) bieten alle Bestandteile arm64-Fassungen: die Basis-Images (.NET, Azurite) und die Installation von Docker, Terraform, Azure CLI und Functions Core Tools. Ein vollständiger Aufbau auf einem Apple-Silicon-Mac wurde nicht durchgeführt.
+
+Alle Befehle in C.1 bis C.5 laufen im Terminal auf dem eigenen Rechner (Windows: PowerShell, macOS und Linux: Terminal), nicht im Dev Container.
 
 #### C.1 Windows
 
@@ -464,6 +478,8 @@ Voraussetzungen: eine funktionierende Container-Engine (Docker Desktop oder Dock
 4. VS Code erkennt `.devcontainer/devcontainer.json` und zeigt unten rechts den Hinweis «Folder contains a Dev Container configuration file. Reopen folder to develop in a container». **Reopen in Container** baut die Umgebung. Der erste Aufbau lädt mehrere hundert MB bis einige GB.
 5. Fehlt der Hinweis: **F1 → Dev Containers: Reopen in Container**.
 
+Der Hinweis erscheint nur lokal. Im Codespace ist die Umgebung bereits ein Dev Container. **Don't Show Again** blendet den Hinweis aus, der Befehl unter **F1** bleibt.
+
 #### C.5 Docker starten und prüfen (vor C.4)
 
 Vor dem Öffnen des Dev Containers muss der Docker-Daemon laufen. Die Prüfung gelingt in jedem Terminal auf dem eigenen Rechner:
@@ -484,7 +500,7 @@ Vor dem Öffnen des Dev Containers muss der Docker-Daemon laufen. Die Prüfung g
 
 Bleibt Docker Desktop auf «Starting» oder startet nicht: WSL 2 prüfen (`wsl --status`), Docker Desktop neu starten, den Rechner neu starten. Auf Firmenrechnern kann eine Richtlinie die Virtualisierung blockieren. Dann Variante A oder B verwenden.
 
-Der Hinweis erscheint nur lokal. Im Codespace ist die Umgebung bereits ein Dev Container. **Don't Show Again** blendet den Hinweis aus, der Befehl unter **F1** bleibt.
+#### Ergebnis von Anhang C
 
 **Erwartetes Ergebnis**
 
@@ -493,8 +509,8 @@ Links unten steht «Dev Container: cas-se cloud labs», das Terminal ist ein Lin
 **Was schiefgehen kann**
 
 - «Cannot connect to the Docker daemon» oder «failed to connect to the docker API»: Docker läuft nicht oder ist noch nicht fertig gestartet. Der Status muss «Running» bzw. «Engine running» lauten. Schrittfolge zum Starten und Prüfen in C.5.
-- Der Aufbau bricht ab: **F1 → Dev Containers: Show Container Log** zeigt die Ursache in der letzten Zeile. Oft genügt **F1 → Rebuild Container**.
+- Der Aufbau bricht ab: **F1 → Dev Containers: Show Container Log** zeigt die Ursache in der letzten Zeile. Oft genügt **F1 → Dev Containers: Rebuild Container**.
 - Der Aufbau ist unter Windows sehr langsam: Das Repo liegt vermutlich in OneDrive oder auf einem Netzlaufwerk. Ein Ordner wie `C:\dev\` behebt das.
 - Der Download der Images scheitert: Ein Firmen-Proxy oder eine Firewall blockiert den Zugriff auf die Registry. Ein anderes Netz oder Variante A im Browser verwenden.
 - Linux: «permission denied» bei Docker: Der Benutzer fehlt in der Gruppe `docker`, siehe C.3, danach neu anmelden.
-- Zu wenig Speicher auf der Festplatte: Alte Images mit `docker system prune` entfernen, nachdem geprüft ist, dass keine eigenen Container darunter fallen.
+- Zu wenig Speicher auf der Festplatte: Alte Images mit `docker system prune` im Terminal auf dem eigenen Rechner entfernen (im Dev Container wirkt der Befehl nur auf den Docker im Container), nachdem geprüft ist, dass keine eigenen Container darunter fallen.
